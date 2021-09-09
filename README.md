@@ -23,12 +23,15 @@ Uh... yeah, the thing is, I'm running Ubuntu 20.04 LTS, not any RasPi flavored l
  $ git clone https://github.com/UCTRONICS/U6143_ssd1306.git
 
 # Compile the source code
- $ cd U6143_ssd1306/C 
+ 
+ $ cd U6143_ssd1306/C
+ 
  $ make 
 
 To successfully make that app I had to also do the following (if you do dev this won't be an issue I expect - these were fresh installs):
 
  $ sudo apt install make
+ 
  $ sudo apt install gcc
 
 So now you have an app called "display" in my case in /home/ubuntu//U6143_ssd1306/C - you can run it now interactively and you should see the LCD light up.  Cool!  Then when you exit, the screen stays frozen.  Less cool.
