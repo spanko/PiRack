@@ -60,11 +60,13 @@ In that service file I put:
 As the tutorial explains, we’re basically saying here "Once you have a network, run the 'display' app we just built."  To make sure this stuff runs (sorry to get so technical there) I did the following b/c the tutorial told me to:
 
 $ sudo chmod 744 /home/ubuntu/U6143_ssd1306/C/display
+
 $ sudo chmod 664 /etc/systemd/system/lcdservice.service
 
 I then ran (also per the tutorial):
 
 $ sudo systemctl daemon-reload
+
 $ sudo systemctl enable lcdservice.service
 
 There is a nice little command I needed b/c I screwed a bunch of stuff up:
