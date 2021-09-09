@@ -1,0 +1,12 @@
+[Unit]
+Description=Front Panel LCD
+After=network.service
+
+
+[Service]
+Type=simple
+RemainAfterExit=yes
+ExecStart= /home/ubuntu/U6143_ssd1306/C/display
+
+[Install]
+WantedBy=default.target
