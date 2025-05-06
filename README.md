@@ -76,3 +76,10 @@ $ systemctl status lcdservice.service
 This is great, because it will tell you what went wrong.  Like building out the Pi Rack itself, the first one was a debacle and the other three went flawlessly for me.
 Anyhow - do a sudo reboot after, and enjoy your up-to-date info on the LCD!
 
+#Add Caching!
+
+I came back to this project and even with RPi imager, there are plenty of apps and modules still needing installation - so I added local caching on my file server.
+Key steps:
+1) Install apt-cacher-ng
+2) CHOWN and CHMOD on the folder you pick for the cache
+3) Add apt-cahcer-ng soft nofile 4096 and apt-cacher-ng hard nofile 10240 to /etc/security/limits.conf
