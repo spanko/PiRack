@@ -83,3 +83,4 @@ Key steps:
 1) Install apt-cacher-ng
 2) CHOWN and CHMOD on the folder you pick for the cache
 3) Add apt-cahcer-ng soft nofile 4096 and apt-cacher-ng hard nofile 10240 to /etc/security/limits.conf
+4) For all the machines that should participate in caching, create a file called 02proxy in /etc/apt/apt.conf.d - put a line like this in it: 'Acquire::http { Proxy "http://192.168.1.169:3142"; };'
