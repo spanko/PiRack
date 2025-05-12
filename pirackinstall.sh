@@ -1,12 +1,12 @@
-sudo mkdir home/spanko/source
-sudo mkdir home/spanko/source/repos
+sudo mkdir /home/spanko/source
+sudo mkdir /home/spanko/source/repos
 cd /home/spanko/source/repos
 sudo git clone https://github.com/UCTRONICS/U6143_ssd1306.git
 
 sudo apt install make
 sudo apt install gcc
 
-cd /source/repos/U6143_ssd1306
+cd /home/spanko/source/repos/U6143_ssd1306/C
 sudo make
 
 # Now make it work at startup
