@@ -1,0 +1,26 @@
+Revisiting the PiRack project and breathing new life into it - I'm now taking one of the pi's and configuring it to sit across all of my VLANs, or at least those that have distinct egress points configured.  
+Generally, the plan is:
+- Enable VLAN on the Rpi
+- Configure the VLANs to reflect what I have setup on my router and switch
+- Create a docker network for each VLAN
+- Build out multiple docker-compose.yml files - one for each vlan - for speedtest
+- Deploy a speedtest container on each VLAN so I can get regulard speedtests on each WAN (I have 3)
+- Fgure out how to aggregate and report on that data
+
+#Enabling Vlan usage
+
+'sudo apt-get install vlan'
+'sudo su -c 'echo "8021q" >> /etc/modules'
+
+Now you are vlan-enabled, let's do something with it.  Here I'm assuming we're using the default Ubuntu network manager.
+
+'sudo nano /etc/netplan/50-cloud-init.yaml'
+
+
+
+
+
+
+#References
+Vlan prep: https://tom-henderson.github.io/2019/04/12/ubuntu-vlan-config.html
+Speedtest: https://hub.docker.com/r/linuxserver/speedtest-tracker 
