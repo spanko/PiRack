@@ -14,7 +14,30 @@ Generally, the plan is:
 
 Now you are vlan-enabled, let's do something with it.  Here I'm assuming we're using the default Ubuntu network manager.
 
-'sudo nano /etc/netplan/50-cloud-init.yaml'
+# Create the VLAN interface
+sudo ip link add link eth0 name eth0.10 type vlan id 10
+sudo ip link add link eth0 name eth0.20 type vlan id 20
+sudo ip link add link eth0 name eth0.30 type vlan id 30
+sudo ip link add link eth0 name eth0.40 type vlan id 40
+sudo ip link add link eth0 name eth0.50 type vlan id 50
+
+# Assign the IP address
+sudo ip addr add 192.168.10.1/24 dev eth0.10
+sudo ip addr add 192.168.20.1/24 dev eth0.20
+sudo ip addr add 192.168.30.1/24 dev eth0.30
+sudo ip addr add 192.168.40.1/24 dev eth0.40
+sudo ip addr add 192.168.50.1/24 dev eth0.50
+
+# Enable the VLAN interface
+sudo ip link set eth0.10 up
+sudo ip link set eth0.20 up
+sudo ip link set eth0.30 up
+sudo ip link set eth0.40 up
+sudo ip link set eth0.50 up
+
+# Now setup the Docker network
+sudo docker network create -d ipvlan --subnet 192.168.50.0/24 --gateway 192.168.50.1 -o parent=vlan50 vlan50_docker
+sudo docker network create -d ipvlan --subnet 192.168.50.0/24 --gateway 192.168.50.1 -o parent=eth0.50 vlan50_docker
 
 
 
