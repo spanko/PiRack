@@ -37,12 +37,46 @@ sudo ip link set eth0.50 up
 
 # Now setup the Docker network
 sudo docker network create -d ipvlan --subnet 192.168.50.0/24 --gateway 192.168.50.1 -o parent=vlan50 vlan50_docker
-sudo docker network create -d ipvlan --subnet 192.168.50.0/24 --gateway 192.168.50.1 -o parent=eth0.50 vlan50_docker
+sudo docker network create -d ipvlan --subnet 192.168.50.0/24 --gateway 192.168.50.1 -o parent=eth0.50 vlan50_docker <== This worked
 
 
+# Spin up a container on that network with docker-compose
+version: '3.8'
 
+services:
+  speedtest-tracker:
+    image: lscr.io/linuxserver/speedtest-tracker:latest
+    container_name: speedtest-tracker-vlan50
+    networks:
+      vlan50_docker:
+        ipv4_address: "192.168.50.8"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Denver
+      - APP_KEY=3Z531fCaC6Xv28CaYwakJpf6qfxZyV0sV0Dvtwgyvq8=
+      - APP_URL=
+      - DB_CONNECTION=sqlite
+      - SPEEDTEST_SCHEDULE=
+      - SPEEDTEST_SERVERS=
+      - DB_HOST= #optional
+      - DB_PORT= #optional
+      - DB_DATABASE= #optional
+      - DB_USERNAME= #optional
+      - DB_PASSWORD= #optional
+      - DISPLAY_TIMEZONE=America/Denver #optional
+      - PRUNE_RESULTS_OLDER_THAN=0 #optional
+    volumes:
+      - /path/to/speedtest-tracker/data:/config
+    ports:
+      - 8080:80
+      - 8443:443
+    restart: unless-stopped
 
-
+networks:
+  vlan50_docker:
+    external:
+      name: vlan50_docker
 
 #References
 Vlan prep: https://tom-henderson.github.io/2019/04/12/ubuntu-vlan-config.html
