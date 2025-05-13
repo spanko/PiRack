@@ -39,6 +39,14 @@ sudo ip link set eth0.50 up
 sudo docker network create -d ipvlan --subnet 192.168.50.0/24 --gateway 192.168.50.1 -o parent=vlan50 vlan50_docker
 sudo docker network create -d ipvlan --subnet 192.168.50.0/24 --gateway 192.168.50.1 -o parent=eth0.50 vlan50_docker <== This worked
 
+   docker network create \
+     --subnet=192.168.50.0/24 \
+     --gateway=192.168.50.1 \
+     -o parent=eth0.50 \
+     -o macvlan.mode=bridge \ # Bridge mode allowed me to see the ports
+     --ip-range=192.168.50.2/31 \
+     docker_vlan50
+
 
 # Spin up a container on that network with docker-compose
 version: '3.8'
