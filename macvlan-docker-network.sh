@@ -22,9 +22,9 @@ case "$VLAN_ID" in
 esac
 
 # Build the network configuration based on VLAN ID
-# This CIDR creates a range from .32 to .63 for the IP range
+# This CIDR creates a range from .224 to .255 for the IP range
 NETWORK_CIDR="192.168.${VLAN_ID}.0/24"
-IP_RANGE_CIDR="192.168.${VLAN_ID}.32/27"
+IP_RANGE_CIDR="192.168.${VLAN_ID}.224/27"
 GATEWAY_IP="192.168.${VLAN_ID}.1"
 PARENT_INTERFACE_NAME="eth0"  # Should probably parameterize this too...
 NETWORK_NAME="docker_${VLAN_ID}"
