@@ -26,7 +26,7 @@ esac
 NETWORK_CIDR="192.168.${VLAN_ID}.0/24"
 IP_RANGE_CIDR="192.168.${VLAN_ID}.32/27"
 GATEWAY_IP="192.168.${VLAN_ID}.1"
-PARENT_INTERFACE_NAME="eth1"
+PARENT_INTERFACE_NAME="eth0"  # Should probably parameterize this too...
 NETWORK_NAME="docker_${VLAN_ID}"
 
 echo "Creating Docker macvlan for VLAN ${VLAN_ID}..."
