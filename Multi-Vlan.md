@@ -43,13 +43,6 @@ sudo docker network create -d macvlan /
 -o parent=vlan40   docker_40
 ```
 There is a LOT of complexity here, but I ended up with this simple network creation and pushed more complexity to the container
-
-# To use DHCP, you'll need to use dhclient OR for Alpine-based containers the following:
-```
-   #!/bin/sh
-   apk add --no-cache busybox
-   ip addr flush dev eth0
-   udhcpc -i eth0
 ```
 # Spin up a container on that network with docker-compose
 ```
@@ -61,6 +54,7 @@ There is a LOT of complexity here, but I ended up with this simple network creat
        container_name: speedtest-tracker-vlan40
        networks:
          vlan40_docker:
+           ipv4_address: 192.168.40.4
        dns:
          - 8.8.8.8
          - 1.1.1.1
@@ -68,7 +62,7 @@ There is a LOT of complexity here, but I ended up with this simple network creat
          - PUID=1000
          - PGID=1000
          - TZ=America/Denver
-         - APP_KEY=3Z531fCaC6Xv28CaYwakJpf6qfxZyV0sV0Dvtwgyvq8=
+         - APP_KEY=
          - APP_URL=
          - DB_CONNECTION=sqlite
          - SPEEDTEST_SCHEDULE=*/5 * * * *
@@ -82,18 +76,22 @@ There is a LOT of complexity here, but I ended up with this simple network creat
          - PRUNE_RESULTS_OLDER_THAN=0
        volumes:
          - /home/spanko/docker-volumes/speedtest40/data:/config
-         - ./dhclient.sh:/etc/local.d/dhclient.sh
        ports:
          - 8080:80
          - 8443:443
-       entrypoint: ["/bin/sh", "-c", "/etc/local.d/dhclient.sh && /init"]
        restart: unless-stopped
    
    networks:
      vlan40_docker:
-       external:
+       external: true
          name: docker_40
 ```
+# Now reserve 192.168.40.4 in the DHCP server for this vlan
+I start all my ranges at 10 so I have room for a few IPs like this
+![image](https://github.com/user-attachments/assets/02d8d120-bb4d-422b-86bb-6a501c7c7439)
+
+You'll need the MAC address from the container, going to the container terminal and running ip addr is an easy way to get it
+
 #References
 Vlan prep: https://tom-henderson.github.io/2019/04/12/ubuntu-vlan-config.html
 Speedtest: https://hub.docker.com/r/linuxserver/speedtest-tracker 
