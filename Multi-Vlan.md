@@ -1,4 +1,7 @@
-Revisiting the PiRack project and breathing new life into it - I'm now taking one of the pi's and configuring it to sit across all of my VLANs, or at least those that have distinct egress points configured.  
+#Revisiting the PiRack project and breathing new life into it
+
+I'm now taking one of the pi's and configuring it to sit across all of my VLANs, or at least those that have distinct egress points configured.  
+
 Generally, the plan is:
 - Enable VLAN on the Rpi
 - Configure the VLANs to reflect what I have setup on my router and switch
