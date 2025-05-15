@@ -43,7 +43,7 @@ sudo docker network create -d macvlan /
 -o parent=vlan40   docker_40
 ```
 There is a LOT of complexity here, but I ended up with this simple network creation and pushed more complexity to the container
-```
+
 # Spin up a container on that network with docker-compose
 ```
    services:
