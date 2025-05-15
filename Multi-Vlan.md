@@ -15,6 +15,22 @@ Generally, the plan is:
 Now you are vlan-enabled, let's do something with it.  Here I'm assuming we're using the default Ubuntu network manager.
 
 # Use Netplan for durable vlan definitions
+Edit /etc/netplan/50-cloud-init.yaml and add the following for vlans using DHCP
+
+network:
+  version: 2
+  ethernets:
+    eth0:
+      dhcp4: true
+  vlans:
+    vlan20:
+      id: 20
+      link: eth0
+      dhcp4: false
+    vlan40:
+      id: 40
+      link: eth0
+      dhcp4: true
 
 # Now setup the Docker network
 sudo docker network create -d macvlan /
@@ -23,9 +39,6 @@ sudo docker network create -d macvlan /
 -o parent=vlan40   docker_40
 
 There is a LOT of complexity here, but I ended up with this simple network creation and pushed more complexity to the container
-
-# Now setup the container to use DHCP from the vlan
-
 
 # To use DHCP, you'll need to use dhclient OR for Alpine-based containers the following:
 
@@ -55,7 +68,7 @@ There is a LOT of complexity here, but I ended up with this simple network creat
          - APP_URL=
          - DB_CONNECTION=sqlite
          - SPEEDTEST_SCHEDULE=*/5 * * * *
-         - SPEEDTEST_SERVERS= #optional
+         - SPEEDTEST_SERVERS= # Run sudo docker run -it --rm --entrypoint /bin/bash lscr.io/linuxserver/speedtest-tracker:latest list-servers
          - DB_HOST= #optional
          - DB_PORT= #optional
          - DB_DATABASE= #optional
