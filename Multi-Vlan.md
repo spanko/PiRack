@@ -8,15 +8,15 @@ Generally, the plan is:
 - Fgure out how to aggregate and report on that data
 
 #Enabling Vlan usage
-'''
+```
 'sudo apt-get install vlan'
 'sudo su -c 'echo "8021q" >> /etc/modules'
-'''
+```
 Now you are vlan-enabled, let's do something with it.  Here I'm assuming we're using the default Ubuntu network manager.
 
 # Use Netplan for durable vlan definitions
 Edit /etc/netplan/50-cloud-init.yaml and add the following for vlans using DHCP
-'''
+```
 network:
   version: 2
   ethernets:
@@ -31,25 +31,25 @@ network:
       id: 40
       link: eth0
       dhcp4: true
-'''
+```
 # Now setup the Docker network
-'''
+```
 sudo docker network create -d macvlan /
 --subnet=192.168.40.0/24 /
 --gateway=192.168.40.1 /
 -o parent=vlan40   docker_40
-'''
+```
 There is a LOT of complexity here, but I ended up with this simple network creation and pushed more complexity to the container
 
 # To use DHCP, you'll need to use dhclient OR for Alpine-based containers the following:
-
+```
    #!/bin/sh
    apk add --no-cache busybox
    ip addr flush dev eth0
    udhcpc -i eth0
-
+```
 # Spin up a container on that network with docker-compose
-
+```
    services:
      speedtest-tracker:
        cap_add:
@@ -90,7 +90,7 @@ There is a LOT of complexity here, but I ended up with this simple network creat
      vlan40_docker:
        external:
          name: docker_40
-
+```
 #References
 Vlan prep: https://tom-henderson.github.io/2019/04/12/ubuntu-vlan-config.html
 Speedtest: https://hub.docker.com/r/linuxserver/speedtest-tracker 
