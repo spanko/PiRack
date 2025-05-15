@@ -12,8 +12,8 @@ Generally, the plan is:
 
 #Enabling Vlan usage
 ```
-'sudo apt-get install vlan'
-'sudo su -c 'echo "8021q" >> /etc/modules'
+sudo apt-get install vlan
+sudo su -c 'echo "8021q" >> /etc/modules
 ```
 Now you are vlan-enabled, let's do something with it.  Here I'm assuming we're using the default Ubuntu network manager.
 
