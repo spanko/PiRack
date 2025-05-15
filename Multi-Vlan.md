@@ -1,4 +1,4 @@
-#Revisiting the PiRack project and breathing new life into it
+# Revisiting the PiRack project and breathing new life into it
 
 I'm now taking one of the pi's and configuring it to sit across all of my VLANs, or at least those that have distinct egress points configured.  
 
